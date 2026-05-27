@@ -6,6 +6,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Seo from "../components/Seo";
 import { stripToPlainText, toSafeRichText } from "../utils/formatText";
+import { getBlogImage } from "../utils/blogImages";
 
 const BlogDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -85,10 +86,10 @@ const BlogDetail = () => {
 
       <Header />
       <section className="max-w-5xl mx-auto px-6 py-20 pt-24">
-        {anyBlog.image && (
+        {getBlogImage(anyBlog.slug, anyBlog.image) && (
           <div className="mb-8">
             <img
-              src={anyBlog.image}
+              src={getBlogImage(anyBlog.slug, anyBlog.image)}
               alt={anyBlog.title}
               className="w-full rounded-2xl shadow-md object-cover max-h-[400px]"
             />

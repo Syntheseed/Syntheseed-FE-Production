@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://syntheseed.com/sitemap.xml
+
+# If you block assets for indexing, search engines may not render pages correctly.
+# Disallow: /assets/

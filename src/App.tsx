@@ -23,6 +23,7 @@ import CookiePolicy from "./pages/CookiePolicy";
 import SecurityPolicy from "./pages/SecurityPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import NotFound from "./pages/NotFound";
+import AdminPage from "./pages/AdminPage";
 
 const HomePage = () => (
   <>
@@ -75,6 +76,7 @@ function App() {
       <Route path="/cookie-policy" element={<CookiePolicy />} />
       <Route path="/security" element={<SecurityPolicy />} />
       <Route path="/terms-of-service" element={<TermsOfService />} />
+      <Route path="/admin" element={<AdminPage />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

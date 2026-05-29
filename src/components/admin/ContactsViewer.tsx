@@ -29,42 +29,42 @@ export default function ContactsViewer({ token, onUnauthorized }: Props) {
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold">Contact Messages ({contacts.length})</h2>
+        <h2 className="text-lg font-semibold text-[rgb(var(--text-primary))]">Contact Messages ({contacts.length})</h2>
       </div>
 
       {loading ? (
-        <p className="text-sm text-gray-500">Loading…</p>
+        <p className="text-sm text-[rgb(var(--text-secondary))]">Loading…</p>
       ) : (
-        <div className="rounded-md border bg-white">
+        <div className="rounded-xl border border-[rgb(var(--border-subtle))] bg-[rgb(var(--surface-elevated))] overflow-hidden">
           <Table>
             <TableHeader>
-              <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>Subject</TableHead>
-                <TableHead>Preview</TableHead>
-                <TableHead>Date</TableHead>
+              <TableRow className="border-b border-[rgb(var(--border-subtle))] bg-[rgb(var(--surface-muted))]">
+                <TableHead className="text-[rgb(var(--text-secondary))] font-medium">Name</TableHead>
+                <TableHead className="text-[rgb(var(--text-secondary))] font-medium">Email</TableHead>
+                <TableHead className="text-[rgb(var(--text-secondary))] font-medium">Subject</TableHead>
+                <TableHead className="text-[rgb(var(--text-secondary))] font-medium">Preview</TableHead>
+                <TableHead className="text-[rgb(var(--text-secondary))] font-medium">Date</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {contacts.map(c => (
                 <TableRow
                   key={c.id}
-                  className="cursor-pointer hover:bg-gray-50"
+                  className="cursor-pointer border-b border-[rgb(var(--border-subtle))] hover:bg-[rgb(var(--surface-muted))] transition-colors"
                   onClick={() => setSelected(c)}
                 >
-                  <TableCell className="font-medium">{c.name}</TableCell>
-                  <TableCell>{c.email}</TableCell>
-                  <TableCell>{c.subject || '—'}</TableCell>
-                  <TableCell className="max-w-xs">
+                  <TableCell className="font-medium text-[rgb(var(--text-primary))]">{c.name}</TableCell>
+                  <TableCell className="text-[rgb(var(--text-secondary))]">{c.email}</TableCell>
+                  <TableCell className="text-[rgb(var(--text-secondary))]">{c.subject || '—'}</TableCell>
+                  <TableCell className="max-w-xs text-[rgb(var(--text-secondary))]">
                     <span className="truncate block">{c.message.slice(0, 80)}{c.message.length > 80 ? '…' : ''}</span>
                   </TableCell>
-                  <TableCell>{new Date(c.created_at).toLocaleDateString()}</TableCell>
+                  <TableCell className="text-[rgb(var(--text-secondary))]">{new Date(c.created_at).toLocaleDateString()}</TableCell>
                 </TableRow>
               ))}
               {contacts.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center text-gray-400 py-10">
+                  <TableCell colSpan={5} className="text-center text-[rgb(var(--text-secondary))] py-10">
                     No messages yet
                   </TableCell>
                 </TableRow>
@@ -75,25 +75,31 @@ export default function ContactsViewer({ token, onUnauthorized }: Props) {
       )}
 
       <Dialog open={!!selected} onOpenChange={open => !open && setSelected(null)}>
-        <DialogContent className="max-w-lg">
+        <DialogContent className="max-w-lg bg-[rgb(var(--surface-elevated))] border-[rgb(var(--border-subtle))]">
           <DialogHeader>
-            <DialogTitle>Message from {selected?.name}</DialogTitle>
+            <DialogTitle className="text-[rgb(var(--text-primary))]">Message from {selected?.name}</DialogTitle>
           </DialogHeader>
           <div className="space-y-3 text-sm">
-            <div><span className="font-medium">Email:</span> {selected?.email}</div>
+            <div className="text-[rgb(var(--text-secondary))]">
+              <span className="font-medium text-[rgb(var(--text-primary))]">Email:</span> {selected?.email}
+            </div>
             {selected?.phone && (
-              <div><span className="font-medium">Phone:</span> {selected.phone}</div>
+              <div className="text-[rgb(var(--text-secondary))]">
+                <span className="font-medium text-[rgb(var(--text-primary))]">Phone:</span> {selected.phone}
+              </div>
             )}
             {selected?.subject && (
-              <div><span className="font-medium">Subject:</span> {selected.subject}</div>
+              <div className="text-[rgb(var(--text-secondary))]">
+                <span className="font-medium text-[rgb(var(--text-primary))]">Subject:</span> {selected.subject}
+              </div>
             )}
-            <div>
-              <span className="font-medium">Date:</span>{' '}
+            <div className="text-[rgb(var(--text-secondary))]">
+              <span className="font-medium text-[rgb(var(--text-primary))]">Date:</span>{' '}
               {selected && new Date(selected.created_at).toLocaleString()}
             </div>
             <div>
-              <span className="font-medium">Message:</span>
-              <p className="mt-1 whitespace-pre-wrap text-gray-700">{selected?.message}</p>
+              <span className="font-medium text-[rgb(var(--text-primary))]">Message:</span>
+              <p className="mt-1 whitespace-pre-wrap text-[rgb(var(--text-secondary))]">{selected?.message}</p>
             </div>
           </div>
         </DialogContent>

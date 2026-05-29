@@ -120,46 +120,57 @@ export default function CareersManager({ token, onUnauthorized }: Props) {
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold">Careers ({careers.length})</h2>
-        <Button onClick={openCreate}>New Career</Button>
+        <h2 className="text-lg font-semibold text-[rgb(var(--text-primary))]">Careers ({careers.length})</h2>
+        <Button
+          onClick={openCreate}
+          className="bg-gradient-to-r from-[#3276ff] to-[#5095ea] text-white border-0 shadow-[0_8px_20px_rgba(50,118,255,0.4)] hover:-translate-y-px transition-all duration-200 rounded-xl"
+        >
+          New Career
+        </Button>
       </div>
 
-      {error && <p className="text-sm text-red-500 mb-3">{error}</p>}
+      {error && <p className="text-sm text-[rgb(var(--s-orange))] mb-3">{error}</p>}
 
       {loading ? (
-        <p className="text-sm text-gray-500">Loading…</p>
+        <p className="text-sm text-[rgb(var(--text-secondary))]">Loading…</p>
       ) : (
-        <div className="rounded-md border bg-white">
+        <div className="rounded-xl border border-[rgb(var(--border-subtle))] bg-[rgb(var(--surface-elevated))] overflow-hidden">
           <Table>
             <TableHeader>
-              <TableRow>
-                <TableHead>Title</TableHead>
-                <TableHead>Department</TableHead>
-                <TableHead>Location</TableHead>
-                <TableHead>Type</TableHead>
-                <TableHead>Posted</TableHead>
-                <TableHead className="w-36">Actions</TableHead>
+              <TableRow className="border-b border-[rgb(var(--border-subtle))] bg-[rgb(var(--surface-muted))]">
+                <TableHead className="text-[rgb(var(--text-secondary))] font-medium">Title</TableHead>
+                <TableHead className="text-[rgb(var(--text-secondary))] font-medium">Department</TableHead>
+                <TableHead className="text-[rgb(var(--text-secondary))] font-medium">Location</TableHead>
+                <TableHead className="text-[rgb(var(--text-secondary))] font-medium">Type</TableHead>
+                <TableHead className="text-[rgb(var(--text-secondary))] font-medium">Posted</TableHead>
+                <TableHead className="w-36 text-[rgb(var(--text-secondary))] font-medium">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {careers.map(c => (
-                <TableRow key={c.id}>
-                  <TableCell className="font-medium">{c.title}</TableCell>
-                  <TableCell>{c.department}</TableCell>
-                  <TableCell>{c.location}</TableCell>
-                  <TableCell>{c.job_type}</TableCell>
-                  <TableCell>{new Date(c.posted_on).toLocaleDateString()}</TableCell>
+                <TableRow key={c.id} className="border-b border-[rgb(var(--border-subtle))] hover:bg-[rgb(var(--surface-muted))] transition-colors">
+                  <TableCell className="font-medium text-[rgb(var(--text-primary))]">{c.title}</TableCell>
+                  <TableCell className="text-[rgb(var(--text-secondary))]">{c.department}</TableCell>
+                  <TableCell className="text-[rgb(var(--text-secondary))]">{c.location}</TableCell>
+                  <TableCell className="text-[rgb(var(--text-secondary))]">{c.job_type}</TableCell>
+                  <TableCell className="text-[rgb(var(--text-secondary))]">{new Date(c.posted_on).toLocaleDateString()}</TableCell>
                   <TableCell>
                     <div className="flex gap-2">
-                      <Button size="sm" variant="outline" onClick={() => openEdit(c)}>Edit</Button>
-                      <Button size="sm" variant="destructive" onClick={() => setDeleteTarget(c)}>Delete</Button>
+                      <Button
+                        size="sm"
+                        onClick={() => openEdit(c)}
+                        className="border border-[rgb(var(--border-color))] bg-transparent text-[rgb(var(--synth-blue))] hover:bg-[rgba(50,118,255,0.08)] transition-all rounded-lg"
+                      >
+                        Edit
+                      </Button>
+                      <Button size="sm" variant="destructive" onClick={() => setDeleteTarget(c)} className="rounded-lg">Delete</Button>
                     </div>
                   </TableCell>
                 </TableRow>
               ))}
               {careers.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={6} className="text-center text-gray-400 py-10">
+                  <TableCell colSpan={6} className="text-center text-[rgb(var(--text-secondary))] py-10">
                     No career listings yet
                   </TableCell>
                 </TableRow>
@@ -170,33 +181,45 @@ export default function CareersManager({ token, onUnauthorized }: Props) {
       )}
 
       <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
-        <SheetContent side="right" className="sm:max-w-2xl flex flex-col p-0">
-          <SheetHeader className="px-6 pt-6 pb-4 border-b">
-            <SheetTitle>{editing ? 'Edit Career' : 'New Career'}</SheetTitle>
+        <SheetContent side="right" className="sm:max-w-2xl flex flex-col p-0 bg-[rgb(var(--bg-secondary))] border-l border-[rgb(var(--border-subtle))]">
+          <SheetHeader className="px-6 pt-6 pb-4 border-b border-[rgb(var(--border-subtle))]">
+            <SheetTitle className="text-[rgb(var(--text-primary))]">{editing ? 'Edit Career' : 'New Career'}</SheetTitle>
           </SheetHeader>
           <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
             <div className="space-y-1">
-              <Label>Title</Label>
-              <Input value={form.title} onChange={e => set('title', e.target.value)} />
+              <Label className="text-[rgb(var(--text-primary))] font-medium text-sm">Title</Label>
+              <Input
+                value={form.title}
+                onChange={e => set('title', e.target.value)}
+                className="border-[rgb(var(--border-subtle))] bg-[rgb(var(--surface-muted))] text-[rgb(var(--text-primary))]"
+              />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1">
-                <Label>Department</Label>
-                <Input value={form.department} onChange={e => set('department', e.target.value)} />
+                <Label className="text-[rgb(var(--text-primary))] font-medium text-sm">Department</Label>
+                <Input
+                  value={form.department}
+                  onChange={e => set('department', e.target.value)}
+                  className="border-[rgb(var(--border-subtle))] bg-[rgb(var(--surface-muted))] text-[rgb(var(--text-primary))]"
+                />
               </div>
               <div className="space-y-1">
-                <Label>Location</Label>
-                <Input value={form.location} onChange={e => set('location', e.target.value)} />
+                <Label className="text-[rgb(var(--text-primary))] font-medium text-sm">Location</Label>
+                <Input
+                  value={form.location}
+                  onChange={e => set('location', e.target.value)}
+                  className="border-[rgb(var(--border-subtle))] bg-[rgb(var(--surface-muted))] text-[rgb(var(--text-primary))]"
+                />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1">
-                <Label>Work Mode</Label>
+                <Label className="text-[rgb(var(--text-primary))] font-medium text-sm">Work Mode</Label>
                 <Select value={form.work_mode} onValueChange={val => set('work_mode', val)}>
-                  <SelectTrigger>
+                  <SelectTrigger className="border-[rgb(var(--border-subtle))] bg-[rgb(var(--surface-muted))] text-[rgb(var(--text-primary))]">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-[rgb(var(--surface-elevated))] border-[rgb(var(--border-subtle))]">
                     <SelectItem value="Remote">Remote</SelectItem>
                     <SelectItem value="On-site">On-site</SelectItem>
                     <SelectItem value="Hybrid">Hybrid</SelectItem>
@@ -204,12 +227,12 @@ export default function CareersManager({ token, onUnauthorized }: Props) {
                 </Select>
               </div>
               <div className="space-y-1">
-                <Label>Job Type</Label>
+                <Label className="text-[rgb(var(--text-primary))] font-medium text-sm">Job Type</Label>
                 <Select value={form.job_type} onValueChange={val => set('job_type', val)}>
-                  <SelectTrigger>
+                  <SelectTrigger className="border-[rgb(var(--border-subtle))] bg-[rgb(var(--surface-muted))] text-[rgb(var(--text-primary))]">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-[rgb(var(--surface-elevated))] border-[rgb(var(--border-subtle))]">
                     <SelectItem value="Full-time">Full-time</SelectItem>
                     <SelectItem value="Part-time">Part-time</SelectItem>
                     <SelectItem value="Contract">Contract</SelectItem>
@@ -219,38 +242,48 @@ export default function CareersManager({ token, onUnauthorized }: Props) {
               </div>
             </div>
             <div className="space-y-1">
-              <Label>Tags (comma-separated)</Label>
+              <Label className="text-[rgb(var(--text-primary))] font-medium text-sm">Tags (comma-separated)</Label>
               <Input
                 value={form.tags}
                 onChange={e => set('tags', e.target.value)}
                 placeholder="React, TypeScript, Remote…"
+                className="border-[rgb(var(--border-subtle))] bg-[rgb(var(--surface-muted))] text-[rgb(var(--text-primary))]"
               />
             </div>
             <div className="space-y-1">
-              <Label>Description (HTML)</Label>
+              <Label className="text-[rgb(var(--text-primary))] font-medium text-sm">Description (HTML)</Label>
               <Textarea
                 value={form.description}
                 onChange={e => set('description', e.target.value)}
                 rows={8}
-                className="font-mono text-xs"
+                className="font-mono text-xs border-[rgb(var(--border-subtle))] bg-[rgb(var(--surface-muted))] text-[rgb(var(--text-primary))]"
                 placeholder="<p>Role description HTML…</p>"
               />
             </div>
             <div className="space-y-1">
-              <Label>Details (HTML)</Label>
+              <Label className="text-[rgb(var(--text-primary))] font-medium text-sm">Details (HTML)</Label>
               <Textarea
                 value={form.details}
                 onChange={e => set('details', e.target.value)}
                 rows={8}
-                className="font-mono text-xs"
+                className="font-mono text-xs border-[rgb(var(--border-subtle))] bg-[rgb(var(--surface-muted))] text-[rgb(var(--text-primary))]"
                 placeholder="<p>Requirements, benefits HTML…</p>"
               />
             </div>
-            {error && <p className="text-sm text-red-500">{error}</p>}
+            {error && <p className="text-sm text-[rgb(var(--s-orange))]">{error}</p>}
           </div>
-          <SheetFooter className="px-6 py-4 border-t">
-            <Button variant="outline" onClick={() => setSheetOpen(false)}>Cancel</Button>
-            <Button onClick={handleSave} disabled={saving}>
+          <SheetFooter className="px-6 py-4 border-t border-[rgb(var(--border-subtle))] bg-[rgb(var(--surface-muted))]">
+            <Button
+              onClick={() => setSheetOpen(false)}
+              className="border border-[rgb(var(--border-strong))] bg-transparent text-[rgb(var(--text-primary))] hover:bg-[rgb(var(--surface-elevated))] transition-all rounded-xl"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleSave}
+              disabled={saving}
+              className="bg-gradient-to-r from-[#3276ff] to-[#5095ea] text-white border-0 shadow-[0_8px_20px_rgba(50,118,255,0.4)] hover:-translate-y-px transition-all duration-200 rounded-xl"
+            >
               {saving ? 'Saving…' : 'Save'}
             </Button>
           </SheetFooter>

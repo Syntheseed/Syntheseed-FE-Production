@@ -1,4 +1,7 @@
-const BASE = import.meta.env.VITE_API_BASE_URL ?? '';
+const _raw = import.meta.env.VITE_ADMIN_API_BASE_URL
+  ?? import.meta.env.VITE_API_BASE_URL
+  ?? 'https://sy-57dc22110be1416ebd157f9def255581.ecs.us-east-1.on.aws';
+const BASE = _raw.endsWith('/') ? _raw : _raw + '/';
 
 async function handleResponse<T>(res: Response): Promise<T> {
   if (res.status === 401 || res.status === 403) throw new Error('UNAUTHORIZED');

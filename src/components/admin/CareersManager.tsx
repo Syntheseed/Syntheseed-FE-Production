@@ -6,7 +6,8 @@ import {
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
-import { Textarea } from '../ui/textarea';
+import { Switch } from '../ui/switch';
+import RichTextEditor from './RichTextEditor';
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from '../ui/select';
@@ -32,6 +33,7 @@ const EMPTY = {
   location: '',
   work_mode: 'Remote',
   job_type: 'Full-time',
+  is_active: true,
   description: '',
   tags: '',
   details: '',
@@ -74,6 +76,7 @@ export default function CareersManager({ token, onUnauthorized }: Props) {
       location: career.location,
       work_mode: career.work_mode,
       job_type: career.job_type,
+      is_active: career.is_active,
       description: career.description ?? '',
       tags: career.tags ?? '',
       details: career.details ?? '',
@@ -82,8 +85,20 @@ export default function CareersManager({ token, onUnauthorized }: Props) {
     setSheetOpen(true);
   }
 
-  function set(key: keyof typeof EMPTY, val: string) {
+  function set<K extends keyof typeof EMPTY>(key: K, val: (typeof EMPTY)[K]) {
     setForm(f => ({ ...f, [key]: val }));
+  }
+
+  async function toggleActive(career: AdminCareer) {
+    const next = !career.is_active;
+    setCareers(prev => prev.map(c => (c.id === career.id ? { ...c, is_active: next } : c)));
+    try {
+      await updateCareer(token, career.id, { is_active: next });
+    } catch (e: unknown) {
+      setCareers(prev => prev.map(c => (c.id === career.id ? { ...c, is_active: career.is_active } : c)));
+      if (e instanceof Error && e.message === 'UNAUTHORIZED') { onUnauthorized(); return; }
+      setError(e instanceof Error ? e.message : 'Failed to update status');
+    }
   }
 
   async function handleSave() {
@@ -143,6 +158,7 @@ export default function CareersManager({ token, onUnauthorized }: Props) {
                 <TableHead className="text-[rgb(var(--text-secondary))] font-medium">Location</TableHead>
                 <TableHead className="text-[rgb(var(--text-secondary))] font-medium">Type</TableHead>
                 <TableHead className="text-[rgb(var(--text-secondary))] font-medium">Posted</TableHead>
+                <TableHead className="text-[rgb(var(--text-secondary))] font-medium">Status</TableHead>
                 <TableHead className="w-36 text-[rgb(var(--text-secondary))] font-medium">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -154,6 +170,19 @@ export default function CareersManager({ token, onUnauthorized }: Props) {
                   <TableCell className="text-[rgb(var(--text-secondary))]">{c.location}</TableCell>
                   <TableCell className="text-[rgb(var(--text-secondary))]">{c.job_type}</TableCell>
                   <TableCell className="text-[rgb(var(--text-secondary))]">{new Date(c.posted_on).toLocaleDateString()}</TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      <Switch
+                        checked={c.is_active}
+                        onCheckedChange={() => toggleActive(c)}
+                        aria-label={c.is_active ? `Disable ${c.title}` : `Enable ${c.title}`}
+                        className="data-[state=checked]:bg-[rgb(var(--synth-blue))] data-[state=unchecked]:bg-[rgb(var(--border-strong))]"
+                      />
+                      <span className={`text-xs font-medium ${c.is_active ? 'text-[rgb(var(--synth-blue))]' : 'text-[rgb(var(--text-secondary))]'}`}>
+                        {c.is_active ? 'Live' : 'Hidden'}
+                      </span>
+                    </div>
+                  </TableCell>
                   <TableCell>
                     <div className="flex gap-2">
                       <Button
@@ -170,7 +199,7 @@ export default function CareersManager({ token, onUnauthorized }: Props) {
               ))}
               {careers.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={6} className="text-center text-[rgb(var(--text-secondary))] py-10">
+                  <TableCell colSpan={7} className="text-center text-[rgb(var(--text-secondary))] py-10">
                     No career listings yet
                   </TableCell>
                 </TableRow>
@@ -241,6 +270,20 @@ export default function CareersManager({ token, onUnauthorized }: Props) {
                 </Select>
               </div>
             </div>
+            <div className="flex items-center justify-between rounded-lg border border-[rgb(var(--border-subtle))] bg-[rgb(var(--surface-muted))] px-3 py-2.5">
+              <div className="pr-4">
+                <Label className="text-[rgb(var(--text-primary))] font-medium text-sm">Visible on careers page</Label>
+                <p className="text-xs text-[rgb(var(--text-secondary))] mt-0.5">
+                  When off, this position is hidden from the public site.
+                </p>
+              </div>
+              <Switch
+                checked={form.is_active}
+                onCheckedChange={val => set('is_active', val)}
+                aria-label="Toggle position visibility"
+                className="data-[state=checked]:bg-[rgb(var(--synth-blue))] data-[state=unchecked]:bg-[rgb(var(--border-strong))]"
+              />
+            </div>
             <div className="space-y-1">
               <Label className="text-[rgb(var(--text-primary))] font-medium text-sm">Tags (comma-separated)</Label>
               <Input
@@ -251,23 +294,19 @@ export default function CareersManager({ token, onUnauthorized }: Props) {
               />
             </div>
             <div className="space-y-1">
-              <Label className="text-[rgb(var(--text-primary))] font-medium text-sm">Description (HTML)</Label>
-              <Textarea
+              <Label className="text-[rgb(var(--text-primary))] font-medium text-sm">Description</Label>
+              <RichTextEditor
                 value={form.description}
-                onChange={e => set('description', e.target.value)}
-                rows={8}
-                className="font-mono text-xs border-[rgb(var(--border-subtle))] bg-[rgb(var(--surface-muted))] text-[rgb(var(--text-primary))]"
-                placeholder="<p>Role description HTML…</p>"
+                onChange={val => set('description', val)}
+                placeholder="Short role description shown on the careers cards…"
               />
             </div>
             <div className="space-y-1">
-              <Label className="text-[rgb(var(--text-primary))] font-medium text-sm">Details (HTML)</Label>
-              <Textarea
+              <Label className="text-[rgb(var(--text-primary))] font-medium text-sm">Details</Label>
+              <RichTextEditor
                 value={form.details}
-                onChange={e => set('details', e.target.value)}
-                rows={8}
-                className="font-mono text-xs border-[rgb(var(--border-subtle))] bg-[rgb(var(--surface-muted))] text-[rgb(var(--text-primary))]"
-                placeholder="<p>Requirements, benefits HTML…</p>"
+                onChange={val => set('details', val)}
+                placeholder="Responsibilities, requirements, benefits…"
               />
             </div>
             {error && <p className="text-sm text-[rgb(var(--s-orange))]">{error}</p>}

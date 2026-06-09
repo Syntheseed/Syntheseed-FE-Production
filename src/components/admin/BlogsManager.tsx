@@ -6,7 +6,7 @@ import {
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
-import { Textarea } from '../ui/textarea';
+import RichTextEditor from './RichTextEditor';
 import {
   Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter,
 } from '../ui/sheet';
@@ -213,23 +213,19 @@ export default function BlogsManager({ token, onUnauthorized }: Props) {
               />
             </div>
             <div className="space-y-1">
-              <Label className="text-[rgb(var(--text-primary))] font-medium text-sm">Summary (HTML)</Label>
-              <Textarea
+              <Label className="text-[rgb(var(--text-primary))] font-medium text-sm">Summary</Label>
+              <RichTextEditor
                 value={form.summary}
-                onChange={e => setForm(f => ({ ...f, summary: e.target.value }))}
-                rows={5}
-                className="font-mono text-xs border-[rgb(var(--border-subtle))] bg-[rgb(var(--surface-muted))] text-[rgb(var(--text-primary))]"
-                placeholder="<p>Summary HTML…</p>"
+                onChange={val => setForm(f => ({ ...f, summary: val }))}
+                placeholder="Short summary shown on blog cards…"
               />
             </div>
             <div className="space-y-1">
-              <Label className="text-[rgb(var(--text-primary))] font-medium text-sm">Content (HTML)</Label>
-              <Textarea
+              <Label className="text-[rgb(var(--text-primary))] font-medium text-sm">Content</Label>
+              <RichTextEditor
                 value={form.content}
-                onChange={e => setForm(f => ({ ...f, content: e.target.value }))}
-                rows={14}
-                className="font-mono text-xs border-[rgb(var(--border-subtle))] bg-[rgb(var(--surface-muted))] text-[rgb(var(--text-primary))]"
-                placeholder="<p>Full content HTML…</p>"
+                onChange={val => setForm(f => ({ ...f, content: val }))}
+                placeholder="Write the full article…"
               />
             </div>
             <div className="space-y-1">

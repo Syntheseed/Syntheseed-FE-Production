@@ -86,6 +86,7 @@ export interface AdminCareer {
   location: string;
   work_mode: string;
   job_type: string;
+  is_active: boolean;
   description: string;
   tags: string;
   details: string;
@@ -97,7 +98,7 @@ export async function fetchAdminCareers(token: string): Promise<AdminCareer[]> {
   return handleResponse<AdminCareer[]>(res);
 }
 
-export async function createCareer(token: string, data: Record<string, string>): Promise<AdminCareer> {
+export async function createCareer(token: string, data: Record<string, string | boolean>): Promise<AdminCareer> {
   const res = await fetch(`${BASE}api/admin/careers/`, {
     method: 'POST',
     headers: { ...tokenHeader(token), 'Content-Type': 'application/json' },
@@ -109,7 +110,7 @@ export async function createCareer(token: string, data: Record<string, string>):
 export async function updateCareer(
   token: string,
   id: number,
-  data: Record<string, string>,
+  data: Record<string, string | boolean>,
 ): Promise<AdminCareer> {
   const res = await fetch(`${BASE}api/admin/careers/${id}/`, {
     method: 'PATCH',

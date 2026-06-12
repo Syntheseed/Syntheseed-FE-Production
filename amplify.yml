@@ -14,16 +14,3 @@ frontend:
   cache:
     paths:
       - node_modules/**/*
-customRules:
-  - source: /admin
-    target: https://sy-57dc22110be1416ebd157f9def255581.ecs.us-east-1.on.aws/admin/
-    status: '302'
-  - source: /admin/
-    target: https://sy-57dc22110be1416ebd157f9def255581.ecs.us-east-1.on.aws/admin/
-    status: '302'
-  - source: /admin/<*>
-    target: https://sy-57dc22110be1416ebd157f9def255581.ecs.us-east-1.on.aws/admin/<*>
-    status: '302'
-  - source: /<*>
-    target: /index.html
-    status: '200'

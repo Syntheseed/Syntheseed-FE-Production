@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { useGetBlogsQuery } from "../services/blogApi";
 import { trackEvent } from '../utils/analytics';
 import { stripToPlainText } from "../utils/formatText";
-import { getBlogImage } from "../utils/blogImages";
 import type { Blog } from "../types/content";
 
 const BlogSection = () => {
@@ -57,13 +56,11 @@ const BlogSection = () => {
                 key={blog.id}
                 className="bg-[rgb(var(--bg-secondary))] rounded-2xl shadow-md hover:shadow-2xl border border-[rgb(var(--border-subtle))] transition-all duration-300 transform hover:-translate-y-2 flex flex-col overflow-hidden"
               >
-                {getBlogImage(blog.slug, blog.image) && (
-                  <img
-                    src={getBlogImage(blog.slug, blog.image)}
-                    alt={blog.title}
-                    className="w-full h-52 object-cover"
-                  />
-                )}
+                <img
+                  src={blog.image}
+                  alt={blog.title}
+                  className="w-full h-52 object-cover"
+                />
                 <div className="p-6 flex flex-col flex-grow text-left">
                   <div className="flex items-center justify-between mb-3">
                     <span className="bg-[rgba(var(--synth-blue),0.1)] text-[rgb(var(--synth-blue))] text-xs font-semibold px-3 py-1 rounded-full">

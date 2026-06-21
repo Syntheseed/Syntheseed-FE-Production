@@ -1,4 +1,5 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 import Header from "./components/Header";
 import Seo from "./components/Seo";
@@ -23,7 +24,15 @@ import CookiePolicy from "./pages/CookiePolicy";
 import SecurityPolicy from "./pages/SecurityPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import NotFound from "./pages/NotFound";
-import AdminPage from "./pages/AdminPage";
+
+const AdminRedirect = () => {
+  const { "*": subPath = "" } = useParams();
+  useEffect(() => {
+    const base = import.meta.env.VITE_ADMIN_URL || "https://api-prod.syntheseed.com";
+    window.location.replace(`${base}/admin/${subPath}`);
+  }, [subPath]);
+  return null;
+};
 
 const HomePage = () => (
   <>
@@ -76,7 +85,8 @@ function App() {
       <Route path="/cookie-policy" element={<CookiePolicy />} />
       <Route path="/security" element={<SecurityPolicy />} />
       <Route path="/terms-of-service" element={<TermsOfService />} />
-      <Route path="/admin" element={<AdminPage />} />
+      <Route path="/admin" element={<AdminRedirect />} />
+      <Route path="/admin/*" element={<AdminRedirect />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

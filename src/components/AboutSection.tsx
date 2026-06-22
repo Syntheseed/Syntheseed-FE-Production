@@ -1,4 +1,4 @@
-import { Target, Lightbulb, Rocket } from 'lucide-react';
+import { Target, Lightbulb, Rocket, DollarSign } from 'lucide-react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -113,6 +113,12 @@ const AboutSection = () => {
                   title: 'The Syntheseed Method',
                   description:
                     'We combine advanced AI with a structured innovation framework that bridges the gap between ideas and execution — helping innovators move from concept to launch with clarity and confidence.',
+                },
+                {
+                  icon: DollarSign,
+                  title: 'Investment',
+                  description:
+                    'Seed funding for Syntheseed is provided by Abraham Family Investments and Ierardi Family Investments.\n\nFor Investor information, please email aabraham@syntheseed.com.',
                 }
               ].map((item, idx) => (
                 <div
@@ -129,8 +135,20 @@ const AboutSection = () => {
                   <h3 className={`text-xl font-bold mb-3 ${isDark ? 'text-white' : 'text-gray-900'}`}>
                     {item.title}
                   </h3>
-                  <p className={`leading-relaxed text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                    {item.description}
+                  <p className={`leading-relaxed text-sm whitespace-pre-line ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+                    {item.description.split(/(\S+@\S+\.\S+)/g).map((part, i) =>
+                      /\S+@\S+\.\S+/.test(part) ? (
+                        <a
+                          key={i}
+                          href={`mailto:${part.replace(/[.,;:]+$/, '')}`}
+                          className="text-[rgb(var(--synth-blue))] hover:underline"
+                        >
+                          {part}
+                        </a>
+                      ) : (
+                        <span key={i}>{part}</span>
+                      )
+                    )}
                   </p>
                 </div>
               ))}

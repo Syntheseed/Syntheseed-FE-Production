@@ -118,7 +118,7 @@ const AboutSection = () => {
                   icon: DollarSign,
                   title: 'Investment',
                   description:
-                    'Seed funding for Syntheseed is provided by Abraham Family Investments and Ierardi Family Investments.\n\nFor Investor information, please email aabraham@syntheseed.com.',
+                    'Abraham Family Investments:  Seed funding\nIerardi Family Trust:  Seed funding\n\nFor Investor information, please email invest@syntheseed.com.',
                 }
               ].map((item, idx) => (
                 <div

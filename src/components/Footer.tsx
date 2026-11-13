@@ -5,7 +5,7 @@ const columns = [
       { label: "A2C", href: "/products/abstract-to-concrete" },
       { label: "Priora", href: "/#products" },
       { label: "AVERTA", href: "/#averta" },
-      { label: "DUAEN", href: "/products/data-use-manager" },
+      { label: "Dusera", href: "/products/data-use-manager" },
       { label: "Envela", href: "/#products" },
     ],
   },

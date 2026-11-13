@@ -1,5 +1,7 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { BlogPost, blogDate, blogExcerpt, fetchBlogs } from "@/lib/blogs";
 import { Button } from "@/components/ui/button";
 import { trackEvent } from "@/utils/analytics";
 import bookCover from "@/assets/causality-economics-ai-cover.jpg";
@@ -28,7 +30,7 @@ const products = [
   { stage: "Shape", name: "A2C", text: "Abstract to Concrete. Turn a raw idea into a structured, validated concept.", href: "/products/abstract-to-concrete" },
   { stage: "Protect", name: "Priora", text: "Know where your invention stands before you invest in a filing.", href: "#contact" },
   { stage: "Govern", name: "AVERTA", text: "Consequential decisions that hold.", href: "#averta" },
-  { stage: "Safeguard", name: "DUAEN", text: "Control and verify what data AI agents and applications access and use.", href: "/products/data-use-manager" },
+  { stage: "Safeguard", name: "Dusera", text: "Control and verify what data AI agents and applications access and use.", href: "/products/data-use-manager" },
   { stage: "Deploy", name: "Envela", text: "Deployment assurance for physical AI, in any industry.", href: "#contact" },
 ];
 
@@ -45,12 +47,6 @@ const timeline = [
   { year: "2026", text: "AVERTA introduced; patent applications filed on governed decision authority" },
 ];
 
-const posts = [
-  { meta: "Strategy · Feb 2026", title: "When Strategy Meets Disruption: Lessons from The Limits of Strategy", text: "What a classic on strategic failure teaches AI innovators and leaders." },
-  { meta: "AGI · Nov 2025", title: "The Promise and Challenges of Artificial General Intelligence", text: "AGI as the next frontier, and what it demands of the people building it." },
-  { meta: "Innovation · Nov 2025", title: "From Abstract to Concrete", text: "How artificial, human and digital intelligence combine to move ideas forward." },
-];
-
 const emails = [
   { label: "General", email: "info@syntheseed.com" },
   { label: "Support", email: "help@syntheseed.com" },
@@ -60,6 +56,13 @@ const emails = [
 
 const MarketingHome = () => {
   const [note, setNote] = useState("");
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+
+  useEffect(() => {
+    let active = true;
+    fetchBlogs().then((items) => { if (active) setPosts(items); }).catch(() => { if (active) setPosts([]); });
+    return () => { active = false; };
+  }, []);
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -95,10 +98,7 @@ const MarketingHome = () => {
 
       <section id="averta" className="py-24 px-6">
         <div className="max-w-6xl mx-auto">
-          <span className="inline-block border border-primary text-primary text-xs font-semibold tracking-widest uppercase px-3 py-1.5 rounded-full">
-            Flagship
-          </span>
-          <p className="text-primary text-sm font-semibold tracking-widest uppercase mt-6">AVERTA</p>
+          <p className="text-primary text-sm font-semibold tracking-widest uppercase">AVERTA</p>
           <h2 className="text-3xl md:text-5xl font-bold mt-3 mb-4 max-w-3xl">Consequential decisions shouldn't sink.</h2>
           <p className="text-muted-foreground text-lg max-w-3xl">
             Before you commit capital, reputation or safety, know the decision will hold. AVERTA governs high-stakes decisions so they endure, and so you never pour more into one that should have stopped.
@@ -141,7 +141,7 @@ const MarketingHome = () => {
           </div>
           <div className="flex flex-wrap items-center gap-4 mt-10 text-[hsl(var(--paper-muted))]">
             <p><span className="text-[hsl(var(--paper-ink))] font-semibold">Delivered on Concreta.</span> Integrated and tailored on-site by our team.</p>
-            <Button className="rounded-full ml-auto" asChild>
+            <Button className="rounded-full ml-auto bg-background text-[hsl(42_80%_78%)] hover:bg-[hsl(var(--paper-ink))] hover:text-[hsl(42_90%_86%)]" asChild>
               <a
                 href={APP_URL}
                 onClick={() => trackEvent("cta_click", { button: "Analyze your idea free", location: "products" })}
@@ -250,13 +250,20 @@ const MarketingHome = () => {
         <div className="max-w-6xl mx-auto">
           <p className="text-primary text-sm font-semibold tracking-widest uppercase">Insights</p>
           <h2 className="text-3xl md:text-5xl font-bold mt-3 mb-10">Thinking from Syntheseed.</h2>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {posts.map((post) => (
-              <a key={post.title} href="#insights" className="block border-t-2 border-primary pt-6">
-                <p className="text-xs uppercase tracking-wider text-muted-foreground">{post.meta}</p>
-                <h3 className="text-xl font-bold mt-3 mb-2">{post.title}</h3>
-                <p className="text-muted-foreground">{post.text}</p>
-              </a>
+              <Link key={post.id} to={`/blogs/${post.slug}`} className="group block overflow-hidden rounded-2xl border border-border bg-card">
+                {post.image ? (
+                  <img src={post.image} alt="" className="h-48 w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                ) : null}
+                <div className="p-6">
+                  <p className="text-xs uppercase tracking-wider text-primary">
+                    {[post.category, blogDate(post.created_at)].filter(Boolean).join(" · ")}
+                  </p>
+                  <h3 className="text-xl font-bold mt-3 mb-2">{post.title}</h3>
+                  <p className="text-muted-foreground line-clamp-3">{blogExcerpt(post.summary)}</p>
+                </div>
+              </Link>
             ))}
           </div>
         </div>

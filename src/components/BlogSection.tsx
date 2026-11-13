@@ -1,111 +1,91 @@
-import { useNavigate } from "react-router-dom";
-import { useGetBlogsQuery } from "../services/blogApi";
-import { trackEvent } from '../utils/analytics';
-import { stripToPlainText } from "../utils/formatText";
-import { getBlogImage } from "../utils/blogImages";
-import type { Blog } from "../types/content";
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 
-const BlogSection = () => {
-  const { data: blogs = [], isLoading } = useGetBlogsQuery(undefined);
-  const navigate = useNavigate();
+const posts = [
+  {
+    title: "When Strategy Meets Disruption: Key Lessons from The Limits of Strategy – Part I",
+    tag: "Strategy",
+    date: "Feb 17, 2026",
+    img: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800",
+    desc: "Key takeaways from Ernest von Simson's book and their relevance for AI innovators and leaders.",
+  },
+  {
+    title: "The Promise and Challenges of Artificial General Intelligence (AGI)",
+    tag: "AGI",
+    date: "Nov 04, 2025",
+    img: "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800",
+    desc: "AGI Represents the Next Frontier in Humanity's Technological Journey.",
+  },
+  {
+    title: "From Abstract to Concrete",
+    tag: "Innovation",
+    date: "Nov 04, 2025",
+    img: "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=800",
+    desc: "How AI, Human Intelligence, and Digital Integration Boost Innovation.",
+  },
+  {
+    title: "Unlocking the Potential Within",
+    tag: "Innovation",
+    date: "Nov 02, 2025",
+    img: "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=800",
+    desc: "Transform Your Abstract Ideas into Concrete Innovations with Syntheseed.",
+  },
+];
 
-  // Limit to latest 6 blogs
-  const recentBlogs = blogs.slice(0, 6);
-
-  const handleReadMore = (slug: string) => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    navigate(`/blogs/${slug}`);
-  };
-
-  const handleViewAll = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    navigate("/blogs");
-  };
-
-  return (
-    <section id="blogs" className="py-20 bg-[rgb(var(--bg-primary))]">
-      <div className="max-w-7xl mx-auto px-4 text-center">
-        <p className="text-[rgb(var(--synth-blue))] font-semibold uppercase tracking-widest mb-2">
-          BLOG
-        </p>
-        <h2 className="text-4xl md:text-5xl font-extrabold text-[rgb(var(--text-primary))] mb-3">
+const BlogSection = () => (
+  <section id="blog" className="py-24 px-6">
+    <div className="max-w-7xl mx-auto">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="text-center mb-16"
+      >
+        <span className="text-primary text-sm font-semibold tracking-widest uppercase">Blog</span>
+        <h2 className="text-3xl md:text-5xl font-bold mt-4 mb-6">
           Latest from Syntheseed
         </h2>
-        <p className="text-[rgb(var(--text-secondary))] text-lg mb-12">
+        <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
           Ideas on product strategy, go-to-market, and founder operations.
         </p>
+      </motion.div>
 
-        {isLoading ? (
-          // Loading skeletons (match AllBlogsPage)
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="glass-effect rounded-2xl overflow-hidden">
-                <div className="w-full h-52 bg-gray-200/60 dark:bg-white/5 animate-pulse" />
-                <div className="p-6">
-                  <div className="h-4 bg-gray-200/60 dark:bg-white/5 rounded w-3/4 mb-3 animate-pulse"></div>
-                  <div className="h-3 bg-gray-200/60 dark:bg-white/5 rounded w-1/2 mb-4 animate-pulse"></div>
-                  <div className="h-3 bg-gray-200/60 dark:bg-white/5 rounded w-full mb-2 animate-pulse"></div>
-                  <div className="h-3 bg-gray-200/60 dark:bg-white/5 rounded w-5/6 animate-pulse"></div>
-                </div>
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {posts.map((post, i) => (
+          <motion.article
+            key={post.title}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.1 }}
+            className="bg-card border border-border rounded-2xl overflow-hidden group cursor-pointer hover:border-primary/50 transition-all"
+          >
+            <div className="overflow-hidden h-48">
+              <img
+                src={post.img}
+                alt={post.title}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                loading="lazy"
+              />
+            </div>
+            <div className="p-5 space-y-3">
+              <div className="flex items-center gap-2">
+                <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full font-medium">{post.tag}</span>
+                <span className="text-xs text-muted-foreground">{post.date}</span>
               </div>
-            ))}
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {recentBlogs.map((blog: Blog) => (
-              <div
-                key={blog.id}
-                className="bg-[rgb(var(--bg-secondary))] rounded-2xl shadow-md hover:shadow-2xl border border-[rgb(var(--border-subtle))] transition-all duration-300 transform hover:-translate-y-2 flex flex-col overflow-hidden"
-              >
-                {getBlogImage(blog.slug, blog.image) && (
-                  <img
-                    src={getBlogImage(blog.slug, blog.image)}
-                    alt={blog.title}
-                    className="w-full h-52 object-cover"
-                  />
-                )}
-                <div className="p-6 flex flex-col flex-grow text-left">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="bg-[rgba(var(--synth-blue),0.1)] text-[rgb(var(--synth-blue))] text-xs font-semibold px-3 py-1 rounded-full">
-                      {blog.category || "AI & Innovation"}
-                    </span>
-                    <span className="text-[rgb(var(--text-secondary))] text-sm">
-                      {new Date(blog.created_at).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "2-digit",
-                        year: "numeric",
-                      })}
-                    </span>
-                  </div>
-
-                  <h3 className="text-lg font-semibold text-[rgb(var(--text-primary))] mb-2 line-clamp-2">
-                    {blog.title}
-                  </h3>
-
-                  <p className="text-[rgb(var(--text-secondary))] text-sm mb-4 flex-grow line-clamp-3">
-                    {stripToPlainText(blog.summary) || "Discover more in this article."}
-                  </p>
-
-                  <button
-                    onClick={() => { trackEvent('button_click', { button: 'Read More', location: 'blog_section', blog_slug: blog.slug }); handleReadMore(blog.slug); }}
-                    className="text-[rgb(var(--synth-blue))] font-medium hover:text-[rgb(var(--synth-blue-inactive))] mt-auto flex items-center gap-1"
-                  >
-                    Read More →
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        <div className="mt-14 flex justify-center">
-          <button onClick={() => { trackEvent('button_click', { button: 'View All Articles', location: 'blog_section' }); handleViewAll(); }} className="btn-primary mx-auto">
-            View All Articles
-          </button>
-        </div>
+              <h3 className="font-bold text-sm leading-snug line-clamp-2">
+                {post.title}
+              </h3>
+              <p className="text-muted-foreground text-xs line-clamp-2">{post.desc}</p>
+              <span className="text-primary text-xs flex items-center gap-1 font-semibold group-hover:gap-2 transition-all">
+                Read More <ArrowRight size={12} />
+              </span>
+            </div>
+          </motion.article>
+        ))}
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);
 
 export default BlogSection;

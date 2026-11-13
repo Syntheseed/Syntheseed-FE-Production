@@ -1,7 +1,14 @@
-User-agent: *
+User-agent: Googlebot
 Allow: /
 
-Sitemap: https://syntheseed.com/sitemap.xml
+User-agent: Bingbot
+Allow: /
 
-# If you block assets for indexing, search engines may not render pages correctly.
-# Disallow: /assets/
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: *
+Allow: /

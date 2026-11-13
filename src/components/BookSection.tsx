@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import bookCover from "@/assets/causality-economics-ai-cover.jpg.asset.json";
+import bookCover from "@/assets/causality-economics-ai-cover.jpg";
 
 const BookSection = () => (
   <section id="book" className="py-24 px-6 bg-card/50">
@@ -28,7 +28,7 @@ const BookSection = () => (
         >
           <div className="rounded-2xl overflow-hidden border border-primary/30 shadow-lg shadow-primary/10">
             <img
-              src={bookCover.url}
+              src={bookCover}
               alt="Book cover: On Causality, Inference, Computational Effects, and the Economics of AI by Alex Abraham"
               className="w-full h-auto block"
             />

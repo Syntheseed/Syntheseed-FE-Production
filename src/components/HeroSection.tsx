@@ -44,9 +44,9 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.8 }}
-          className="text-4xl md:text-6xl lg:text-7xl font-bold text-primary mb-6 max-w-4xl"
+          className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 max-w-4xl"
         >
-          Ideas should move forward. Decisions should hold.
+          Ideas should move forward. <span className="text-accent">Decisions should hold.</span>
         </motion.h1>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -61,7 +61,7 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.8 }}
         >
-          <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 rounded-full px-8 py-6 text-base gap-2" asChild>
+          <Button size="lg" className="rounded-full px-8 py-6 text-base gap-2" asChild>
             <a
               href="https://app.syntheseed.com"
               onClick={() => trackEvent("cta_click", { button: "Get started", location: "hero" })}

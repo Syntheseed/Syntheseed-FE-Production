@@ -3,8 +3,6 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { trackEvent } from "@/utils/analytics";
 import bookCover from "@/assets/causality-economics-ai-cover.jpg";
-import amazonLogo from "@/assets/retailers/amazon.svg";
-import barnesNobleLogo from "@/assets/retailers/barnes-noble.svg";
 import HeroSection from "@/components/HeroSection";
 
 const APP_URL = "https://app.syntheseed.com";
@@ -116,11 +114,11 @@ const MarketingHome = () => {
         </div>
       </section>
 
-      <section id="products" className="py-24 px-6 bg-card/40">
+      <section id="products" className="py-24 px-6 bg-[hsl(var(--paper))] text-[hsl(var(--paper-ink))]">
         <div className="max-w-6xl mx-auto">
-          <p className="text-primary text-sm font-semibold tracking-widest uppercase">The Concreta platform</p>
+          <p className="text-[hsl(var(--paper-gold))] text-sm font-semibold tracking-widest uppercase">The Concreta platform</p>
           <h2 className="text-3xl md:text-5xl font-bold mt-3 mb-4">One platform. Every product.</h2>
-          <p className="text-muted-foreground text-lg max-w-3xl">
+          <p className="text-[hsl(var(--paper-muted))] text-lg max-w-3xl">
             Our products are delivered on Concreta, built to take an idea from abstract to concrete and keep the decisions behind it sound.
           </p>
           <div className="grid md:grid-cols-2 lg:grid-cols-6 gap-6 mt-12">
@@ -128,21 +126,21 @@ const MarketingHome = () => {
               <a
                 key={product.name}
                 href={product.href}
-                className={`bg-card border border-border rounded-2xl p-8 flex flex-col hover:border-primary/50 transition-colors ${
+                className={`bg-white border border-[hsl(var(--paper-line))] rounded-2xl p-8 flex flex-col hover:border-primary transition-colors ${
                   index < 3 ? "lg:col-span-2" : "lg:col-span-3"
                 }`}
               >
-                <span className="text-primary text-xs font-semibold tracking-widest uppercase">{product.stage}</span>
+                <span className="text-[hsl(var(--paper-gold))] text-xs font-semibold tracking-widest uppercase">{product.stage}</span>
                 <h3 className="text-2xl font-bold mt-3 mb-2">{product.name}</h3>
-                <p className="text-muted-foreground flex-1">{product.text}</p>
+                <p className="text-[hsl(var(--paper-muted))] flex-1">{product.text}</p>
                 <span className="mt-6 font-semibold inline-flex items-center gap-2">
                   Learn more <ArrowRight size={16} />
                 </span>
               </a>
             ))}
           </div>
-          <div className="flex flex-wrap items-center gap-4 mt-10 text-muted-foreground">
-            <p><span className="text-foreground font-semibold">Delivered on Concreta.</span> Integrated and tailored on-site by our team.</p>
+          <div className="flex flex-wrap items-center gap-4 mt-10 text-[hsl(var(--paper-muted))]">
+            <p><span className="text-[hsl(var(--paper-ink))] font-semibold">Delivered on Concreta.</span> Integrated and tailored on-site by our team.</p>
             <Button className="rounded-full ml-auto" asChild>
               <a
                 href={APP_URL}
@@ -224,32 +222,14 @@ const MarketingHome = () => {
             <p className="text-muted-foreground leading-relaxed mt-4">
               It is the foundation for how we advise clients on AI investment.
             </p>
-            <div className="flex flex-wrap items-center gap-4 mt-8">
-              <a
-                href="https://www.amazon.com/dp/1662981996"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Get it on Amazon"
-                className="inline-flex items-center justify-center rounded-lg bg-white px-5 py-3 shadow-sm transition-transform hover:-translate-y-0.5"
-              >
-                <img src={amazonLogo} alt="" className="h-8 w-auto" />
-              </a>
-              <a
-                href="https://www.barnesandnoble.com/w/on-causality-inference-computational-effects-and-the-economics-of-ai-alex-abraham/1151747047?ean=9781662982002"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Get it on Barnes & Noble"
-                className="inline-flex items-center justify-center rounded-lg bg-white px-5 py-3 shadow-sm transition-transform hover:-translate-y-0.5"
-              >
-                <img src={barnesNobleLogo} alt="" className="h-6 w-auto" />
-              </a>
-            </div>
-            <details className="relative inline-block mt-4 group">
-              <summary className="list-none cursor-pointer text-sm font-semibold text-primary [&::-webkit-details-marker]:hidden">
-                More retailers
+            <details className="relative inline-block mt-8">
+              <summary className="list-none cursor-pointer [&::-webkit-details-marker]:hidden">
+                <span className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground">
+                  Retailers
+                </span>
               </summary>
               <div className="absolute left-0 top-full z-10 mt-2 min-w-72 overflow-hidden rounded-xl border border-border bg-card shadow-xl">
-                {retailers.filter((retailer) => retailer.name !== "Amazon" && !retailer.name.startsWith("Barnes & Noble (paperback)")).map((retailer) => (
+                {retailers.map((retailer) => (
                   <a
                     key={retailer.name}
                     href={retailer.href}

@@ -8,9 +8,21 @@ const APP_URL = "https://app.syntheseed.com";
 
 const proof = [
   { value: "1986", text: "Building applied AI systems since our founder's first neural network" },
+  { value: "1993", text: "Genetic programming language and compiler built in LISP" },
   { value: "2023", text: "Syntheseed founded" },
   { value: "Patent-pending", text: "Decision authority and AI agent technology" },
   { value: "Published", text: "Original research on the economics of AI" },
+];
+
+const retailers = [
+  { name: "Amazon", href: "https://www.amazon.com/dp/1662981996" },
+  { name: "Barnes & Noble (paperback)", href: "https://www.barnesandnoble.com/w/on-causality-inference-computational-effects-and-the-economics-of-ai-alex-abraham/1151747047?ean=9781662982002" },
+  { name: "Barnes & Noble (Nook eBook)", href: "https://www.barnesandnoble.com/w/books/1151747047?ean=2940185459607" },
+  { name: "Kobo (eBook)", href: "https://www.kobo.com/ww/en/ebook/on-causality-inference-computational-effects-and-the-economics-of-ai" },
+  { name: "Bookshop.org", href: "https://bookshop.org/p/books/on-causality-inference-computational-effects-and-the-economics-of-ai/e29989f93fe8da47" },
+  { name: "Walmart", href: "https://www.walmart.com/ip/On-Causality-Inference-Computational-Effects-and-the-Economics-of-AI-Paperback-9781662982002/21264007852" },
+  { name: "ThriftBooks", href: "https://www.thriftbooks.com/w/on-causality-inference-computational-effects-and-the-economics-of-ai_alex-abraham/60778563/" },
+  { name: "Payot (Switzerland)", href: "https://payot.ch/p/on-causality-inference-computational-effects-and-the-economics-of-ai-9781662981999" },
 ];
 
 const pillars = [
@@ -84,7 +96,7 @@ const MarketingHome = () => {
               <a href="#consulting">Work with our advisors <ArrowRight size={18} /></a>
             </Button>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-20 pt-8 border-t border-border">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-8 mt-20 pt-8 border-t border-border">
             {proof.map((item) => (
               <div key={item.value}>
                 <b className="block text-3xl text-primary font-bold">{item.value}</b>
@@ -234,7 +246,10 @@ const MarketingHome = () => {
           <div>
             <p className="text-primary text-sm font-semibold tracking-widest uppercase">From our Executive Chairman</p>
             <h2 className="text-3xl md:text-5xl font-bold mt-3 mb-4">Where does the economic cost of AI truly begin?</h2>
-            <p className="text-muted-foreground leading-relaxed">
+            <p className="text-primary text-xl italic leading-snug">
+              The definitive, foundational scholarly work on the origination of the cost economics of AI.
+            </p>
+            <p className="text-muted-foreground leading-relaxed mt-4">
               Most treatments of AI economics begin with GPU clusters, cloud bills and tokens. This book begins upstream. It establishes the discipline of Computational AI Economics and shows that spending, energy use and hardware utilization are downstream symptoms of where cost actually originates.
             </p>
             <p className="text-muted-foreground leading-relaxed mt-4">
@@ -243,11 +258,26 @@ const MarketingHome = () => {
             <p className="text-muted-foreground leading-relaxed mt-4">
               It is the foundation for how we advise clients on AI investment.
             </p>
-            <Button className="rounded-full mt-8" asChild>
-              <a href="https://www.amazon.com/dp/1662981996" target="_blank" rel="noopener noreferrer">
-                Get it on Amazon <ArrowRight size={16} />
-              </a>
-            </Button>
+            <details className="relative inline-block mt-8 group">
+              <summary className="list-none cursor-pointer [&::-webkit-details-marker]:hidden">
+                <span className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground">
+                  Buy the Book
+                </span>
+              </summary>
+              <div className="absolute left-0 top-full z-10 mt-2 min-w-72 overflow-hidden rounded-xl border border-border bg-card shadow-xl">
+                {retailers.map((retailer) => (
+                  <a
+                    key={retailer.name}
+                    href={retailer.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block border-b border-border px-4 py-3 text-sm last:border-b-0 hover:bg-secondary hover:text-primary"
+                  >
+                    {retailer.name}
+                  </a>
+                ))}
+              </div>
+            </details>
           </div>
         </div>
       </section>

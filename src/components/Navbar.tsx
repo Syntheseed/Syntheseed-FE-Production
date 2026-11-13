@@ -3,12 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
-  { label: "Home", href: "/#home" },
-  { label: "About", href: "/#about" },
-  { label: "Products", href: "/#product" },
-  { label: "Services", href: "/services" },
-  { label: "Careers", href: "/#careers" },
-  { label: "Blog", href: "/#blog" },
+  { label: "AVERTA", href: "/#averta" },
+  { label: "Concreta", href: "/#products" },
+  { label: "Consulting", href: "/#consulting" },
+  { label: "Company", href: "/#company" },
+  { label: "Insights", href: "/#insights" },
   { label: "Contact", href: "/#contact" },
 ];
 
@@ -38,7 +37,7 @@ const Navbar = () => {
           </span>
         </a>
 
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-8">
           {navLinks.map((link) => (
             <a
               key={link.href}
@@ -50,19 +49,22 @@ const Navbar = () => {
           ))}
         </div>
 
-        <div className="hidden md:block">
-          <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-6">
-            Login/Register
+        <div className="hidden lg:flex items-center gap-4">
+          <a href="https://app.syntheseed.com" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            Log in
+          </a>
+          <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-6" asChild>
+            <a href="/#contact">Request a briefing</a>
           </Button>
         </div>
 
-        <button className="md:hidden text-foreground" onClick={() => setMobileOpen(!mobileOpen)}>
+        <button className="lg:hidden text-foreground" onClick={() => setMobileOpen(!mobileOpen)}>
           {mobileOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
       {mobileOpen && (
-        <div className="md:hidden bg-background/95 backdrop-blur-md border-t border-border px-6 py-4 space-y-3">
+        <div className="lg:hidden bg-background/95 backdrop-blur-md border-t border-border px-6 py-4 space-y-3">
           {navLinks.map((link) => (
             <a
               key={link.href}
@@ -73,8 +75,11 @@ const Navbar = () => {
               {link.label}
             </a>
           ))}
-          <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-full">
-            Login/Register
+          <a href="https://app.syntheseed.com" className="block text-sm text-muted-foreground hover:text-foreground">
+            Log in
+          </a>
+          <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-full" asChild>
+            <a href="/#contact" onClick={() => setMobileOpen(false)}>Request a briefing</a>
           </Button>
         </div>
       )}

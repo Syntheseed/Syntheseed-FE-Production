@@ -1,25 +1,15 @@
 import Navbar from "@/components/Navbar";
 import Seo from "@/components/Seo";
-import HeroSection from "@/components/HeroSection";
-import AboutSection from "@/components/AboutSection";
-import ProductSection from "@/components/ProductSection";
-import CareersSection from "@/components/CareersSection";
-import ContactSection from "@/components/ContactSection";
-import BlogSection from "@/components/BlogSection";
-import BookSection from "@/components/BookSection";
+import MarketingHome from "@/components/home/MarketingHome";
 import Footer from "@/components/Footer";
 
 const Index = () => (
-  <div className="min-h-screen bg-background">
-    <Seo />
+  <div className="min-h-screen bg-background text-foreground">
+    <Seo
+      description="Syntheseed builds decision systems and advises leaders on AI. AVERTA governed decision authority, innovation products, and AI consulting grounded in four decades of applied AI."
+    />
     <Navbar />
-    <HeroSection />
-    <AboutSection />
-    <ProductSection />
-    <CareersSection />
-    <ContactSection />
-    <BookSection />
-    <BlogSection />
+    <MarketingHome />
     <Footer />
   </div>
 );

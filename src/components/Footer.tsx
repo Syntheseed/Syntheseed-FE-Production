@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { trackEvent } from "@/utils/analytics";
 
 const Footer = () => (
   <footer className="border-t border-border">
@@ -11,8 +12,15 @@ const Footer = () => (
         <p className="text-muted-foreground mb-8">
           Get initial analysis of your idea from Syntheseed today for free.
         </p>
-        <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-8 gap-2">
-          Get Started <ArrowRight size={18} />
+        <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-8 gap-2" asChild>
+          <a
+            href="https://app.syntheseed.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => trackEvent("cta_click", { button: "Get Started", location: "footer" })}
+          >
+            Get Started <ArrowRight size={18} />
+          </a>
         </Button>
       </div>
     </div>

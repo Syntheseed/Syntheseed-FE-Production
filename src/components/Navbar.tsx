@@ -29,9 +29,7 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <a href="/#home" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-lg">S</span>
-          </div>
+          <img src="/logo-light.png" alt="" className="w-10 h-10 object-contain" />
           <span className="text-xl font-bold text-foreground">
             Syntheseed
           </span>

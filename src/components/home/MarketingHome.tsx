@@ -3,16 +3,9 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { trackEvent } from "@/utils/analytics";
 import bookCover from "@/assets/causality-economics-ai-cover.jpg";
+import HeroSection from "@/components/HeroSection";
 
 const APP_URL = "https://app.syntheseed.com";
-
-const proof = [
-  { value: "1986", text: "Building applied AI systems since our founder's first neural network" },
-  { value: "1993", text: "Genetic programming language and compiler built in LISP" },
-  { value: "2023", text: "Syntheseed founded" },
-  { value: "Patent-pending", text: "Decision authority and AI agent technology" },
-  { value: "Published", text: "Original research on the economics of AI" },
-];
 
 const retailers = [
   { name: "Amazon", href: "https://www.amazon.com/dp/1662981996" },
@@ -76,36 +69,7 @@ const MarketingHome = () => {
 
   return (
     <main>
-      <section id="home" className="relative overflow-hidden pt-36 pb-20 px-6">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(800px_420px_at_85%_10%,hsl(var(--primary)/0.18),transparent_60%),radial-gradient(700px_500px_at_0%_100%,hsl(var(--primary)/0.12),transparent_60%)]" />
-        <div className="relative max-w-6xl mx-auto">
-          <p className="text-primary text-sm font-semibold tracking-widest uppercase">
-            Abstract to Concrete. Decisions that Endure.
-          </p>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight max-w-4xl mt-5 mb-6">
-            Ideas should move forward. <span className="text-primary">Decisions should hold.</span>
-          </h1>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl leading-relaxed">
-            Syntheseed builds decision systems for consequential choices and advises leaders on how to adopt AI with evidence, accountability and control. From a raw idea to a governed decision, we bring four decades of applied AI to the moments that matter.
-          </p>
-          <div className="flex flex-wrap gap-4 mt-10">
-            <Button size="lg" className="rounded-full px-8" asChild>
-              <a href="#averta">Explore AVERTA <ArrowRight size={18} /></a>
-            </Button>
-            <Button size="lg" variant="outline" className="rounded-full px-8" asChild>
-              <a href="#consulting">Work with our advisors <ArrowRight size={18} /></a>
-            </Button>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-8 mt-20 pt-8 border-t border-border">
-            {proof.map((item) => (
-              <div key={item.value}>
-                <b className="block text-3xl text-primary font-bold">{item.value}</b>
-                <span className="text-sm text-muted-foreground">{item.text}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <HeroSection />
 
       <section className="py-24 px-6 bg-card/40">
         <div className="max-w-6xl mx-auto">

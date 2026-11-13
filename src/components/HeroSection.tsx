@@ -28,7 +28,7 @@ const HeroSection = () => {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 1 }}
-          className="absolute inset-0"
+          className="absolute inset-0 pointer-events-none"
         >
           <img
             src={slides[current]}
@@ -39,7 +39,7 @@ const HeroSection = () => {
         </motion.div>
       </AnimatePresence>
 
-      <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-6">
+      <div className="relative z-20 flex flex-col items-center justify-center h-full text-center px-6">
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -64,8 +64,6 @@ const HeroSection = () => {
           <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 rounded-full px-8 py-6 text-base gap-2" asChild>
             <a
               href="https://app.syntheseed.com"
-              target="_blank"
-              rel="noopener noreferrer"
               onClick={() => trackEvent("cta_click", { button: "Get started", location: "hero" })}
             >
               Get started <ArrowRight size={18} />

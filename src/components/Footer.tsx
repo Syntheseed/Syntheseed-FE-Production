@@ -15,8 +15,6 @@ const Footer = () => (
         <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-8 gap-2" asChild>
           <a
             href="https://app.syntheseed.com"
-            target="_blank"
-            rel="noopener noreferrer"
             onClick={() => trackEvent("cta_click", { button: "Get Started", location: "footer" })}
           >
             Get Started <ArrowRight size={18} />

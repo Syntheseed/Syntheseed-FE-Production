@@ -3,6 +3,8 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { trackEvent } from "@/utils/analytics";
 import bookCover from "@/assets/causality-economics-ai-cover.jpg";
+import amazonLogo from "@/assets/retailers/amazon.svg";
+import barnesNobleLogo from "@/assets/retailers/barnes-noble.svg";
 import HeroSection from "@/components/HeroSection";
 
 const APP_URL = "https://app.syntheseed.com";
@@ -222,14 +224,32 @@ const MarketingHome = () => {
             <p className="text-muted-foreground leading-relaxed mt-4">
               It is the foundation for how we advise clients on AI investment.
             </p>
-            <details className="relative inline-block mt-8 group">
-              <summary className="list-none cursor-pointer [&::-webkit-details-marker]:hidden">
-                <span className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground">
-                  Buy the Book
-                </span>
+            <div className="flex flex-wrap items-center gap-4 mt-8">
+              <a
+                href="https://www.amazon.com/dp/1662981996"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Get it on Amazon"
+                className="inline-flex items-center justify-center rounded-lg bg-white px-5 py-3 shadow-sm transition-transform hover:-translate-y-0.5"
+              >
+                <img src={amazonLogo} alt="" className="h-8 w-auto" />
+              </a>
+              <a
+                href="https://www.barnesandnoble.com/w/on-causality-inference-computational-effects-and-the-economics-of-ai-alex-abraham/1151747047?ean=9781662982002"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Get it on Barnes & Noble"
+                className="inline-flex items-center justify-center rounded-lg bg-white px-5 py-3 shadow-sm transition-transform hover:-translate-y-0.5"
+              >
+                <img src={barnesNobleLogo} alt="" className="h-6 w-auto" />
+              </a>
+            </div>
+            <details className="relative inline-block mt-4 group">
+              <summary className="list-none cursor-pointer text-sm font-semibold text-primary [&::-webkit-details-marker]:hidden">
+                More retailers
               </summary>
               <div className="absolute left-0 top-full z-10 mt-2 min-w-72 overflow-hidden rounded-xl border border-border bg-card shadow-xl">
-                {retailers.map((retailer) => (
+                {retailers.filter((retailer) => retailer.name !== "Amazon" && !retailer.name.startsWith("Barnes & Noble (paperback)")).map((retailer) => (
                   <a
                     key={retailer.name}
                     href={retailer.href}

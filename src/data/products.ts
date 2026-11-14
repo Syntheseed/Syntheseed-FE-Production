@@ -38,7 +38,7 @@ export const products: Product[] = [
   },
   {
     slug: "data-use-manager",
-    name: "Data Use Management",
+    name: "Dusera - Data Use Management",
     icon: Database,
     tagline: "Keep control of how your data is used.",
     description:

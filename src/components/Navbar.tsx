@@ -1,10 +1,16 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
+
+const concretaLinks = [
+  { label: "A2C", href: "/products/abstract-to-concrete" },
+  { label: "Priora", href: "/#products" },
+  { label: "AVERTA", href: "/#averta" },
+  { label: "Dusera", href: "/products/data-use-manager" },
+  { label: "Envela", href: "/#products" },
+];
 
 const navLinks = [
-  { label: "AVERTA", href: "/#averta" },
-  { label: "Concreta", href: "/#products" },
   { label: "Consulting", href: "/#consulting" },
   { label: "Company", href: "/#company" },
   { label: "Insights", href: "/#insights" },
@@ -36,6 +42,27 @@ const Navbar = () => {
         </a>
 
         <div className="hidden lg:flex items-center gap-8">
+          <details className="relative">
+            <summary className="flex cursor-pointer list-none items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground [&::-webkit-details-marker]:hidden">
+              Concreta
+              <ChevronDown size={14} />
+            </summary>
+            <div className="absolute left-0 top-full z-50 mt-3 min-w-40 overflow-hidden rounded-xl border border-border bg-background shadow-xl">
+              {concretaLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="block border-b border-border px-4 py-3 text-sm text-muted-foreground last:border-b-0 hover:bg-secondary hover:text-foreground"
+                  onClick={(event) => {
+                    const menu = event.currentTarget.closest("details");
+                    if (menu) menu.open = false;
+                  }}
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          </details>
           {navLinks.map((link) => (
             <a
               key={link.href}
@@ -63,6 +90,17 @@ const Navbar = () => {
 
       {mobileOpen && (
         <div className="lg:hidden bg-background/95 backdrop-blur-md border-t border-border px-6 py-4 space-y-3">
+          <p className="text-sm text-foreground">Concreta</p>
+          {concretaLinks.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              onClick={() => setMobileOpen(false)}
+              className="block pl-4 text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {link.label}
+            </a>
+          ))}
           {navLinks.map((link) => (
             <a
               key={link.href}
